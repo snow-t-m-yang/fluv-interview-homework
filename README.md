@@ -1,3 +1,7 @@
+# Language
+
+TypeScript
+
 # Meta Framework 
 
 Next.js
