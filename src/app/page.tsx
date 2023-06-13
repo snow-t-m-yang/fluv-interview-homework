@@ -2,8 +2,8 @@ import TodoList from "../components/TodoList";
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-between min-h-screen p-24 ">
-      <h1>Todo List</h1>
+    <main className="flex p-7 flex-col items-center justify-between min-h-[100dvh] ">
+      <h1 className="text-3xl">Todo List</h1>
       <TodoList />
     </main>
   );
