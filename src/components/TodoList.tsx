@@ -9,7 +9,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { Textarea } from "./textarea";
 
 type TodoItem = {
-  title: string;
   id: string;
   task: string;
   completed: boolean;
@@ -30,7 +29,106 @@ type TodoAction =
       payload: { id: string; description: string };
     };
 
-const initialState: TodoItem[] = [];
+// const initialState: TodoItem[] = [];
+
+const initialState: TodoItem[] = [
+  {
+    id: "1",
+    task: "Complete assignment",
+    completed: false,
+    isEditing: false,
+    hasDescription: true,
+    descriptionContent: "This is the description for Task 1",
+  },
+  {
+    id: "2",
+    task: "Read a book",
+    completed: false,
+    isEditing: false,
+    hasDescription: false,
+    descriptionContent: undefined,
+  },
+  {
+    id: "3",
+    task: "Go grocery shopping",
+    completed: true,
+    isEditing: false,
+    hasDescription: true,
+    descriptionContent: "This is the description for Task 3",
+  },
+  {
+    id: "4",
+    task: "Exercise for 30 minutes",
+    completed: false,
+    isEditing: false,
+    hasDescription: false,
+    descriptionContent: undefined,
+  },
+  {
+    id: "5",
+    task: "Call a friend",
+    completed: true,
+    isEditing: false,
+    hasDescription: true,
+    descriptionContent: "This is the description for Task 5",
+  },
+  {
+    id: "6",
+    task: "Pay bills",
+    completed: false,
+    isEditing: false,
+    hasDescription: false,
+    descriptionContent: undefined,
+  },
+  {
+    id: "7",
+    task: "Clean the house",
+    completed: true,
+    isEditing: false,
+    hasDescription: true,
+    descriptionContent: "This is the description for Task 7",
+  },
+  {
+    id: "8",
+    task: "Walk the dog",
+    completed: false,
+    isEditing: false,
+    hasDescription: false,
+    descriptionContent: undefined,
+  },
+  {
+    id: "9",
+    task: "Write a blog post",
+    completed: true,
+    isEditing: false,
+    hasDescription: true,
+    descriptionContent: "This is the description for Task 9",
+  },
+  {
+    id: "10",
+    task: "Cook dinner",
+    completed: false,
+    isEditing: false,
+    hasDescription: false,
+    descriptionContent: undefined,
+  },
+  {
+    id: "11",
+    task: "Finish project",
+    completed: true,
+    isEditing: false,
+    hasDescription: true,
+    descriptionContent: "This is the description for Task 11",
+  },
+  {
+    id: "12",
+    task: "Attend meeting",
+    completed: false,
+    isEditing: false,
+    hasDescription: false,
+    descriptionContent: undefined,
+  },
+];
 
 const reducer = (state: TodoItem[], action: TodoAction) => {
   switch (action.type) {
@@ -97,22 +195,16 @@ const TodoList = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [text, setText] = useState("");
   const [targetId, setTargetId] = useState("");
-  const listRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   const notifyDuplicate = () =>
     toast.error("This task already exists!\nSearch it!", {
       icon: "⚠️",
     });
 
-  // useEffect(() => {
-  //   if (listRef.current) {
-  //     listRef.current.scrollIntoView({
-  //       block: "end",
-  //       inline: "nearest",
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // }, [state]);
+  useEffect(() => {
+    listRef.current?.lastElementChild?.scrollIntoView();
+  }, [state.length]);
 
   const handleAddTodo = () => {
     if (!text) return;
@@ -125,7 +217,6 @@ const TodoList = () => {
     dispatch({
       type: "ADD_TODO",
       payload: {
-        title: text,
         id: uuidv4(),
         task: text,
         completed: false,
@@ -153,9 +244,14 @@ const TodoList = () => {
         Todo List
       </h1>
 
-      <div ref={listRef} className="w-full px-3 mb-32 bottom-32">
+      {/* <div ref={listRef} className="w-full px-3 mb-32 "> */}
+      <ul
+        ref={listRef}
+        className="absolute w-full h-full overflow-y-auto divide-y-2 bottom-32"
+      >
         <TodoItem todos={state} dispatch={dispatch} />
-      </div>
+      </ul>
+      {/* </div> */}
 
       <div className="fixed bottom-0 flex flex-col items-center justify-center w-full h-32 gap-3 text-gray-300 bg-gray-900/80 backdrop-blur-xl">
         <Input
@@ -171,9 +267,7 @@ const TodoList = () => {
           <Button className="w-[7.5rem] dark" onClick={() => handleAddTodo()}>
             Add
           </Button>
-          <Button className="w-[7.5rem] dark" onClick={() => handleSearch()}>
-            Search
-          </Button>
+          <Button className="w-[7.5rem] dark">Search</Button>
         </div>
       </div>
 
@@ -204,96 +298,87 @@ type TodoItemProps = {
 };
 
 const TodoItem = ({ todos, dispatch }: TodoItemProps) => {
-  const listRef = useRef<HTMLUListElement>(null);
-
-  useEffect(() => {
-    listRef.current?.lastElementChild?.scrollIntoView();
-    console.log(listRef.current?.lastElementChild);
-  }, [todos]);
-
   return (
     <>
-      <ul ref={listRef} className=" pt-[4rem] divide-y-2 ">
-        {todos.map((todo: TodoItem) => (
-          <li
-            key={todo.id}
-            className={`${
-              todo.completed ? "text-gray-500 line-through" : "text-gray-900"
-            } flex justify-between py-2 items-center  w-full gap-x-2`}
-          >
-            <input
-              type="checkbox"
-              className="h-6 w-6 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
-              checked={todo.completed}
-              onChange={() =>
-                dispatch({ type: "ISFINISHED_TODO", payload: todo.id })
+      {todos.map((todo: TodoItem) => (
+        <li
+          key={todo.id}
+          className={`${
+            todo.completed ? "text-gray-500 line-through" : "text-gray-900"
+          } flex justify-between py-2 items-center  w-full gap-x-2`}
+        >
+          <input
+            type="checkbox"
+            className="h-6 w-6 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
+            checked={todo.completed}
+            onChange={() =>
+              dispatch({ type: "ISFINISHED_TODO", payload: todo.id })
+            }
+          />
+          <div className="text-xl">
+            {todo.isEditing ? (
+              <Input
+                type="text"
+                value={todo.task}
+                className="text-xl"
+                onChange={(e) =>
+                  dispatch({
+                    type: "EDIT_TODO_CONTENT",
+                    payload: { id: todo.id, task: e.target.value },
+                  })
+                }
+              />
+            ) : (
+              <p>{todo.task}</p>
+            )}
+
+            {todo.hasDescription ? (
+              <Textarea
+                placeholder="Add description"
+                value={todo.descriptionContent}
+                className="h-8 text-gray-500"
+                onChange={(e) =>
+                  dispatch({
+                    type: "EDIT_DESCRIPTION",
+                    payload: { id: todo.id, description: e.target.value },
+                  })
+                }
+              />
+            ) : (
+              ""
+            )}
+          </div>
+
+          <div className="flex gap-2">
+            <Button
+              onClick={() =>
+                dispatch({ type: "ISEDIT_TODO", payload: todo.id })
               }
-            />
-            <div className="text-xl">
-              {todo.isEditing ? (
-                <Input
-                  type="text"
-                  value={todo.task}
-                  className="text-xl"
-                  onChange={(e) =>
-                    dispatch({
-                      type: "EDIT_TODO_CONTENT",
-                      payload: { id: todo.id, task: e.target.value },
-                    })
-                  }
-                />
-              ) : (
-                <p>{todo.task}</p>
-              )}
-
+            >
+              <Edit size={20} />
+            </Button>
+            <Button
+              onClick={() =>
+                dispatch({ type: "TOGGLE_DESCRIPTION", payload: todo.id })
+              }
+            >
               {todo.hasDescription ? (
-                <Textarea
-                  placeholder="Add description"
-                  value={todo.descriptionContent}
-                  className="h-8 text-gray-500"
-                  onChange={(e) =>
-                    dispatch({
-                      type: "EDIT_DESCRIPTION",
-                      payload: { id: todo.id, description: e.target.value },
-                    })
-                  }
-                />
+                <XSquare size={20} />
               ) : (
-                ""
+                <StickyNote size={20} />
               )}
-            </div>
-
-            <div className="flex gap-2">
-              <Button
-                onClick={() =>
-                  dispatch({ type: "ISEDIT_TODO", payload: todo.id })
-                }
-              >
-                <Edit size={20} />
-              </Button>
-              <Button
-                onClick={() =>
-                  dispatch({ type: "TOGGLE_DESCRIPTION", payload: todo.id })
-                }
-              >
-                {todo.hasDescription ? (
-                  <XSquare size={20} />
-                ) : (
-                  <StickyNote size={20} />
-                )}
-              </Button>
-              <Button
-                className="text-sm text-red-500"
-                onClick={() =>
-                  dispatch({ type: "DELETE_TODO", payload: todo.id })
-                }
-              >
-                <Trash size={20} />
-              </Button>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </Button>
+            <Button
+              className="text-sm text-red-500"
+              onClick={() =>
+                dispatch({ type: "DELETE_TODO", payload: todo.id })
+              }
+            >
+              <Trash size={20} />
+            </Button>
+          </div>
+        </li>
+      ))}
     </>
   );
 };

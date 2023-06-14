@@ -1,12 +1,34 @@
 # Document of Todo List
 
-## How to run this project
+## Get Started
 
 1. Clone Repo from Github at local editor
-2. run `pnpm install` to install all dependencies
-3. run `pnpm dev` to start the development server
 
-## Goals
+```shell
+git clone git@github.com:snow-t-m-yang/fluv-interview-homework.git
+```
+
+2. Install dependencies using pnpm:
+
+``` shell
+pnpm install
+ ```
+
+3. Start the development server:
+
+ ``` shell
+pnpm run dev
+ ```
+
+4. Open <http://localhost:3000> to view it in the browser.
+
+---
+
+## Total Scores
+
+## Scores of each requirement
+
+---
 
 ### Requirements
 
@@ -32,25 +54,26 @@
 37. [x] Use nextjs + 50
 39. [x] Writing Documentation + 60
 
+---
+
 ## Stacks
 
 ### Language
 
-TypeScript
+**TypeScript**
 
 ### Meta Framework
 
-Next.js
+**Next.js**
 
 ### UI Framework
 
-React.js
+**React.js**
 
 ### CSS Framework
 
-TailwindCSS
+**TailwindCSS**
 
 ### Component Library
 
-[Shadcn UI](https://ui.shadcn.com/)
-
+**[Shadcn UI](https://ui.shadcn.com/)**
