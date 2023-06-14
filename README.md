@@ -17,7 +17,7 @@ pnpm install
 3. Start the development server:
 
  ``` shell
-pnpm run dev
+pnpm dev
  ```
 
 4. Open <http://localhost:3000> to view it in the browser.
