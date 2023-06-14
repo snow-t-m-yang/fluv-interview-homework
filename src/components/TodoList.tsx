@@ -40,6 +40,7 @@ type TodoAction =
 
 // const initialState: TodoItem[] = [];
 
+//! For testing purposes
 const initialState: TodoItem[] = [
   {
     id: "1",
@@ -214,7 +215,8 @@ const reducer = (state: TodoItem[], action: TodoAction) => {
 };
 
 const TodoList = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [isTesting, setIsTesting] = useState(false);
+  const [state, dispatch] = useReducer(reducer, isTesting ? initialState : []);
   const [text, setText] = useState("");
 
   const listRef = useRef<HTMLUListElement | null>(null);
@@ -277,6 +279,15 @@ const TodoList = () => {
     dispatch({ type: "REORDER_TODO", payload: items });
   };
 
+  const handleTesting = () => {
+    setIsTesting(!isTesting);
+    if (isTesting) {
+      dispatch({ type: "REORDER_TODO", payload: initialState });
+    } else {
+      dispatch({ type: "REORDER_TODO", payload: [] });
+    }
+  };
+
   return (
     <div className="flex relative justify-around flex-col  min-h-[100dvh] w-full max-w-[36rem] md:max-w-xl items-center gap-3">
       <h1 className="fixed top-0 z-10 flex items-center justify-center w-full h-16 gap-3 px-24 py-3 text-3xl text-gray-100 bg-gray-900 bg-gray-900/80 backdrop-blur-xl">
@@ -321,6 +332,12 @@ const TodoList = () => {
             Search
           </Button>
         </div>
+        <Button
+          className="w-[3.5rem] dark fixed bottom-4 left-5"
+          onClick={() => handleTesting()}
+        >
+          {isTesting ? "Test" : "Clear"}
+        </Button>
       </div>
 
       <Toaster

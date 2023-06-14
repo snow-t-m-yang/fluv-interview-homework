@@ -26,9 +26,9 @@ pnpm run dev
 
 ## Total Scores
 
-## Scores of each requirement
+### **310**
 
----
+## Scores of each requirement
 
 ### Requirements
 
@@ -40,19 +40,18 @@ pnpm run dev
 
 ### Bonus
 
-1. Ability to search existing tasks + 10
-2. Tasks can be dragged and rearranged + 10
-3. Can login(any login method is accepted) + 10
-4. Tasks can be rearranged + 10
-5. [x] RWD + 10
-6. [x] Can add Description + 10
-7. [x] Use Git to manage this project + 10
-8. [x] UIi/UX +10
-10. Ability to add start and end dates to tasks + 10
-11. [x] Use typescript + 10
-16. [x] Use web + 10
-37. [x] Use nextjs + 50
-39. [x] Writing Documentation + 60
+1. [x] Ability to search existing tasks + 10
+2. [x] Tasks can be dragged and rearranged + 10
+3. [x] Tasks can be rearranged + 10
+4. [x] RWD + 10
+5. [x] Can add Description + 10
+6. [x] Use Git to manage this project + 10
+7. [x] UIi/UX +10
+8. [x] Ability to add start and end dates to tasks + 10
+9. [x] Use typescript + 10
+10. [x] Use web + 10
+11. [x] Use nextjs + 50
+12. [x] Writing Documentation + 60
 
 ---
 
